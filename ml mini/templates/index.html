@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>House Price Prediction — Decision Tree</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <p class="eyebrow">ML mini project</p>
+        <h1>House price prediction</h1>
+        <p class="lede">
+          A <strong>decision tree regressor</strong> trained on the California housing dataset.
+          Enter block-level statistics below; the model returns an estimated median home value.
+        </p>
+        <p class="meta">{{ target_description }}</p>
+      </header>
+
+      <main class="grid">
+        <section class="card form-card">
+          <h2>Inputs</h2>
+          <p class="hint">All fields use the same units as the sklearn dataset.</p>
+          <form id="predict-form">
+            {% for name in feature_names %}
+            <label class="field">
+              <span class="label-text">
+                <span class="name">{{ name }}</span>
+                <span class="desc" data-feature="{{ name }}"></span>
+              </span>
+              <input
+                type="number"
+                step="any"
+                name="{{ name }}"
+                id="f-{{ name }}"
+                required
+              />
+            </label>
+            {% endfor %}
+            <div class="actions">
+              <button type="submit" class="btn primary">Predict</button>
+              <button type="button" class="btn ghost" id="fill-sample">Fill sample</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="card result-card">
+          <h2>Result</h2>
+          <div id="result-placeholder" class="placeholder">
+            Submit the form to see the predicted median house value.
+          </div>
+          <div id="result-output" class="output hidden" aria-live="polite">
+            <p class="big-value"><span id="usd-value">—</span></p>
+            <p class="sub">
+              Model output: <code id="raw-value">—</code> (× $100,000)
+            </p>
+          </div>
+          <p id="error-msg" class="error hidden" role="alert"></p>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>Stack: Python · scikit-learn DecisionTreeRegressor · Flask</span>
+      </footer>
+    </div>
+
+    <script>
+      window.__FEATURE_LABELS__ = {
+        MedInc: "Median income in tens of thousands ($)",
+        HouseAge: "Median house age (years)",
+        AveRooms: "Average rooms per household",
+        AveBedrms: "Average bedrooms per household",
+        Population: "Block group population",
+        AveOccup: "Average household size (occupants)",
+        Latitude: "Latitude (degrees)",
+        Longitude: "Longitude (degrees)",
+      };
+    </script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>
